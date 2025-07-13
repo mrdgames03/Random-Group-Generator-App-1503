@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
+import FileUpload from './FileUpload';
 import * as FiIcons from 'react-icons/fi';
 
 const { FiPlus, FiX, FiUser } = FiIcons;
@@ -26,6 +27,12 @@ const NameInput = ({ names, setNames }) => {
     }
   };
 
+  const handleNamesImported = (importedNames) => {
+    // Merge imported names with existing names, removing duplicates
+    const mergedNames = [...new Set([...names, ...importedNames])];
+    setNames(mergedNames);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,6 +42,13 @@ const NameInput = ({ names, setNames }) => {
       <div className="flex items-center space-x-2 mb-4">
         <SafeIcon icon={FiUser} className="w-5 h-5 text-white" />
         <h2 className="text-white font-semibold text-lg">Add Names</h2>
+      </div>
+
+      <FileUpload onNamesImported={handleNamesImported} />
+
+      <div className="flex items-center space-x-2 text-white/70 text-sm mb-4">
+        <span>or</span>
+        <div className="flex-1 border-t border-white/10"></div>
       </div>
 
       <div className="flex space-x-2 mb-4">
